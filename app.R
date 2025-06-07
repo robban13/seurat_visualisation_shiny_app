@@ -3,7 +3,7 @@ required_packages <- c(
   "shiny", "Seurat", "ggplot2", "EnhancedVolcano", "dplyr", "epitools",
   "pwr", "DT", "MAST", "DESeq2", "tibble", "shinyjs", "clusterProfiler",
   "slingshot", "scales", "viridis", "RColorBrewer", "metap", "RANN",
-  "reshape2"
+  "reshape2", "ggprism"
 )
 
 cran_pkgs <- setdiff(required_packages, c("MAST", "DESeq2", "clusterProfiler", "slingshot"))
