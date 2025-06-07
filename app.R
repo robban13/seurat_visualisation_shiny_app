@@ -1,23 +1,32 @@
-library(shiny)
-library(Seurat)
-library(ggplot2)
-library(EnhancedVolcano)
-library(dplyr)
-library(epitools)
-library(pwr)       
-library(DT)       
-library(MAST)
-library(DESeq2)
-library(tibble)
-library(shinyjs)
-library(clusterProfiler)
-library(slingshot)
-library(scales)
-library(viridis)
-library(RColorBrewer)
-library(metap)
-library(RANN)
-library(reshape2)
+## Install and load required packages ----
+required_packages <- c(
+  "shiny", "Seurat", "ggplot2", "EnhancedVolcano", "dplyr", "epitools",
+  "pwr", "DT", "MAST", "DESeq2", "tibble", "shinyjs", "clusterProfiler",
+  "slingshot", "scales", "viridis", "RColorBrewer", "metap", "RANN",
+  "reshape2"
+)
+
+cran_pkgs <- setdiff(required_packages, c("MAST", "DESeq2", "clusterProfiler", "slingshot"))
+bioc_pkgs <- intersect(required_packages, c("MAST", "DESeq2", "clusterProfiler", "slingshot"))
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+for (pkg in cran_pkgs) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+  }
+  library(pkg, character.only = TRUE)
+}
+
+if (length(bioc_pkgs)) {
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+  for (pkg in bioc_pkgs) {
+    if (!requireNamespace(pkg, quietly = TRUE))
+      BiocManager::install(pkg, ask = FALSE, update = FALSE)
+    library(pkg, character.only = TRUE)
+  }
+}
 
 # Increase maximum upload size to 6000 MB
 options(shiny.maxRequestSize = 6000 * 1024^2)  # 6000 MB
